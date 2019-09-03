@@ -1,0 +1,7 @@
+form_tblnoticias_mob.php
+tcc_puc
+form_tblnoticias_mob
+SIM
+form
+form_tblnoticias
+LigMd5
