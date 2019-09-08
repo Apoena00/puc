@@ -222,7 +222,7 @@ function nmButtonOutput($arr_buttons, $sBtn, $sClick, $sHref, $sId, $sName, $sVa
             case 'only_fontawesomeicon':
                 if(!empty($arr_buttons[$sBtn]['fontawesomeicon']))
                 {
-                    $sCodigo .= "<i class='". $arr_buttons[$sBtn]['fontawesomeicon'] ."'></i>\r\n";
+                    $sCodigo .= "<i class='icon_fa ". $arr_buttons[$sBtn]['fontawesomeicon'] ."'></i>\r\n";
                 }
                 break;
             case 'text_fontawesomeicon':
@@ -231,14 +231,14 @@ function nmButtonOutput($arr_buttons, $sBtn, $sClick, $sHref, $sId, $sName, $sVa
                     $sCodigo .= $sValue;
                     if(!empty($arr_buttons[$sBtn]['fontawesomeicon']))
                     {
-                        $sCodigo .= "&nbsp;&nbsp;<i class='". $arr_buttons[$sBtn]['fontawesomeicon'] ."'></i>\r\n";
+                        $sCodigo .= "&nbsp;&nbsp;<i class='icon_fa ". $arr_buttons[$sBtn]['fontawesomeicon'] ."'></i>\r\n";
                     }
                 }
                 else
                 {
                     if(!empty($arr_buttons[$sBtn]['fontawesomeicon']))
                     {
-                        $sCodigo .= "<i class='". $arr_buttons[$sBtn]['fontawesomeicon'] ."'></i>&nbsp;&nbsp;\r\n";
+                        $sCodigo .= "<i class='icon_fa ". $arr_buttons[$sBtn]['fontawesomeicon'] ."'></i>&nbsp;&nbsp;\r\n";
                     }
                     $sCodigo .= $sValue;
                 }
@@ -277,7 +277,7 @@ function nmButtonOutput($arr_buttons, $sBtn, $sClick, $sHref, $sId, $sName, $sVa
     }
     elseif ('fontawesomeicon' == $arr_buttons[$sBtn]['type'])
     {
-        $sCodigo .= "<a " . $sId . $sKey . $sTarget . $sBorder. $sHref. $sHint . $sStyle . $sAlign . $sClassI . $sClick . "><i class='". $arr_buttons[$sBtn]['fontawesomeicon'] ."'></i></a>\r\n";
+        $sCodigo .= "<a " . $sId . $sKey . $sTarget . $sBorder. $sHref. $sHint . $sStyle . $sAlign . $sClassI . $sClick . "><i class=' icon_fa". $arr_buttons[$sBtn]['fontawesomeicon'] ."'></i></a>\r\n";
     }
     else
     {
@@ -285,7 +285,7 @@ function nmButtonOutput($arr_buttons, $sBtn, $sClick, $sHref, $sId, $sName, $sVa
 		{
 			if ('text_fontawesomeicon' == $arr_buttons[$sBtn]['display'] && !empty($arr_buttons[$sBtn]['fontawesomeicon']))
 			{
-				$sCodigo .= "<i class='". $arr_buttons[$sBtn]['fontawesomeicon'] ."'></i>&nbsp;&nbsp;\r\n";
+				$sCodigo .= "<i class='icon_fa ". $arr_buttons[$sBtn]['fontawesomeicon'] ."'></i>&nbsp;&nbsp;\r\n";
 			}
 			elseif ('text_img' == $arr_buttons[$sBtn]['display'] && !empty($arr_buttons[$sBtn]['image']))
 			{
@@ -303,7 +303,7 @@ function nmButtonGroupOutput($arr_buttons, $sBtn, $str_step)
 
     if($str_step == 'ini')
     {
-        $sCodigo .= "<span id=\"". $sBtn ."\" ". $sClass .">\r\n";
+        $sCodigo .= "<span id=\"". $sBtn ."\" ". $sClass ." style='display: inline-block;'>\r\n";
     }
     else
     {

@@ -230,7 +230,7 @@ $.widget('scriptcase.scInput', {
 			this._completeDecimal();
 		}
 
-		if (typeof _scBrowser != undefined && ('msie' == _scBrowser || 'safari' == _scBrowser)/*this.options.hasChanged*/) {
+		if (typeof _scBrowser != undefined && ('msie' == _scBrowser || 'safari' == _scBrowser) && this.options.hasChanged) {
 			$(this.element).trigger('change');
 		}
 	}, // _onBlur

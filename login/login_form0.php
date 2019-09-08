@@ -675,6 +675,52 @@ _scAjaxShowMessage({message: "<?php echo $this->form_encode_input($this->Ini->Nm
     <TD class="scFormDataOdd" colspan="<?php echo $sc_hidden_yes * 2; ?>" >&nbsp;</TD>
 <?php } 
 ?> 
+<?php if ($sc_hidden_no > 0) { echo "<tr>"; }; 
+      $sc_hidden_yes = 0; $sc_hidden_no = 0; ?>
+
+
+   <?php
+    if (!isset($this->nm_new_label['usuario']))
+    {
+        $this->nm_new_label['usuario'] = "Usuário: <b>admin</b> <br> Senha: <b>admin</b>";
+    }
+?>
+<?php
+   $nm_cor_fun_cel  = ($nm_cor_fun_cel  == $this->Ini->cor_grid_impar ? $this->Ini->cor_grid_par : $this->Ini->cor_grid_impar);
+   $nm_img_fun_cel  = ($nm_img_fun_cel  == $this->Ini->img_fun_imp    ? $this->Ini->img_fun_par  : $this->Ini->img_fun_imp);
+   $usuario = $this->usuario;
+   $sStyleHidden_usuario = '';
+   if (isset($this->nmgp_cmp_hidden['usuario']) && $this->nmgp_cmp_hidden['usuario'] == 'off')
+   {
+       unset($this->nmgp_cmp_hidden['usuario']);
+       $sStyleHidden_usuario = 'display: none;';
+   }
+   $bTestReadOnly = true;
+   $sStyleReadLab_usuario = 'display: none;';
+   $sStyleReadInp_usuario = '';
+   if (/*$this->nmgp_opcao != "novo" && */isset($this->nmgp_cmp_readonly['usuario']) && $this->nmgp_cmp_readonly['usuario'] == 'on')
+   {
+       $bTestReadOnly = false;
+       unset($this->nmgp_cmp_readonly['usuario']);
+       $sStyleReadLab_usuario = '';
+       $sStyleReadInp_usuario = 'display: none;';
+   }
+?>
+<?php if (isset($this->nmgp_cmp_hidden['usuario']) && $this->nmgp_cmp_hidden['usuario'] == 'off') { $sc_hidden_yes++;  ?>
+<input type="hidden" name="usuario" value="<?php echo $this->form_encode_input($usuario) . "\">"; ?>
+<?php } else { $sc_hidden_no++; ?>
+
+    <TD class="scFormLabelOdd scUiLabelWidthFix css_usuario_label" id="hidden_field_label_usuario" style="<?php echo $sStyleHidden_usuario; ?>"><span id="id_label_usuario"><?php echo $this->nm_new_label['usuario']; ?></span></TD>
+    <TD class="scFormDataOdd css_usuario_line" id="hidden_field_data_usuario" style="<?php echo $sStyleHidden_usuario; ?>"><input type="hidden" name="usuario" value="<?php echo $this->form_encode_input($usuario); ?>"><span id="id_ajax_label_usuario"><?php echo nl2br($usuario); ?></span>
+</TD>
+   <?php }?>
+
+<?php if ($sc_hidden_yes > 0 && $sc_hidden_no > 0) { ?>
+
+
+    <TD class="scFormDataOdd" colspan="<?php echo $sc_hidden_yes * 2; ?>" >&nbsp;</TD>
+<?php } 
+?> 
 
 
    </tr>
@@ -908,7 +954,7 @@ scAjaxFocusError();
 <?php
 }
 ?>
-<script>
+<script type='text/javascript'>
 bLigEditLookupCall = <?php if ($this->lig_edit_lookup_call) { ?>true<?php } else { ?>false<?php } ?>;
 function scLigEditLookupCall()
 {
@@ -938,6 +984,15 @@ if (isset($this->redir_modal) && !empty($this->redir_modal))
 }
 ?>
 </script>
+<?php
+if ($this->nmgp_form_empty) {
+?>
+<script type="text/javascript">
+scAjax_displayEmptyForm();
+</script>
+<?php
+}
+?>
 <script type="text/javascript">
 	function scBtnFn_sys_format_ok() {
 		if ($("#sub_form_b.sc-unique-btn-1").length && $("#sub_form_b.sc-unique-btn-1").is(":visible")) {
@@ -971,6 +1026,9 @@ function scMobileDisplayControl(sOption) {
 <span id="sc-id-mobile-in"><?php echo $this->Ini->Nm_lang['lang_version_mobile']; ?></span>
 <?php
        }
+?>
+<?php
+$_SESSION['sc_session'][$this->Ini->sc_page]['login']['buttonStatus'] = $this->nmgp_botoes;
 ?>
 <script type="text/javascript">
    function sc_session_redir(url_redir)

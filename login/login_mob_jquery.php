@@ -53,6 +53,7 @@ function scSetFocusOnField($oField) {
 function scEventControl_init(iSeqRow) {
   scEventControl_data["login" + iSeqRow] = {"blur": false, "change": false, "autocomp": false, "original": "", "calculated": ""};
   scEventControl_data["pswd" + iSeqRow] = {"blur": false, "change": false, "autocomp": false, "original": "", "calculated": ""};
+  scEventControl_data["usuario" + iSeqRow] = {"blur": false, "change": false, "autocomp": false, "original": "", "calculated": ""};
   scEventControl_data["links" + iSeqRow] = {"blur": false, "change": false, "autocomp": false, "original": "", "calculated": ""};
 }
 
@@ -67,6 +68,12 @@ function scEventControl_active(iSeqRow) {
     return true;
   }
   if (scEventControl_data["pswd" + iSeqRow]["change"]) {
+    return true;
+  }
+  if (scEventControl_data["usuario" + iSeqRow]["blur"]) {
+    return true;
+  }
+  if (scEventControl_data["usuario" + iSeqRow]["change"]) {
     return true;
   }
   if (scEventControl_data["links" + iSeqRow]["blur"]) {
@@ -112,6 +119,8 @@ function scJQEventsAdd(iSeqRow) {
                                   .bind('focus', function() { sc_login_pswd_onfocus(this, iSeqRow) });
   $('#id_sc_field_links' + iSeqRow).bind('blur', function() { sc_login_links_onblur(this, iSeqRow) })
                                    .bind('focus', function() { sc_login_links_onfocus(this, iSeqRow) });
+  $('#id_sc_field_usuario' + iSeqRow).bind('blur', function() { sc_login_usuario_onblur(this, iSeqRow) })
+                                     .bind('focus', function() { sc_login_usuario_onfocus(this, iSeqRow) });
 } // scJQEventsAdd
 
 function sc_login_login_onblur(oThis, iSeqRow) {
@@ -144,6 +153,16 @@ function sc_login_links_onfocus(oThis, iSeqRow) {
   scCssFocus(oThis);
 }
 
+function sc_login_usuario_onblur(oThis, iSeqRow) {
+  do_ajax_login_mob_validate_usuario();
+  scCssBlur(oThis);
+}
+
+function sc_login_usuario_onfocus(oThis, iSeqRow) {
+  scEventControl_onFocus(oThis, iSeqRow);
+  scCssFocus(oThis);
+}
+
 function displayChange_block(block, status) {
 	if ("0" == block) {
 		displayChange_block_0(status);
@@ -156,6 +175,7 @@ function displayChange_block(block, status) {
 function displayChange_block_0(status) {
 	displayChange_field("login", "", status);
 	displayChange_field("pswd", "", status);
+	displayChange_field("usuario", "", status);
 }
 
 function displayChange_block_1(status) {
@@ -165,6 +185,7 @@ function displayChange_block_1(status) {
 function displayChange_row(row, status) {
 	displayChange_field_login(row, status);
 	displayChange_field_pswd(row, status);
+	displayChange_field_usuario(row, status);
 	displayChange_field_links(row, status);
 }
 
@@ -175,6 +196,9 @@ function displayChange_field(field, row, status) {
 	if ("pswd" == field) {
 		displayChange_field_pswd(row, status);
 	}
+	if ("usuario" == field) {
+		displayChange_field_usuario(row, status);
+	}
 	if ("links" == field) {
 		displayChange_field_links(row, status);
 	}
@@ -184,6 +208,9 @@ function displayChange_field_login(row, status) {
 }
 
 function displayChange_field_pswd(row, status) {
+}
+
+function displayChange_field_usuario(row, status) {
 }
 
 function displayChange_field_links(row, status) {

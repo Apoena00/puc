@@ -50,6 +50,7 @@ class login_mob_apl
    var $login;
    var $pswd;
    var $links;
+   var $usuario;
    var $nm_data;
    var $nmgp_opcao;
    var $nmgp_opc_ant;
@@ -145,6 +146,10 @@ class login_mob_apl
           if (isset($this->NM_ajax_info['param']['script_case_init']))
           {
               $this->script_case_init = $this->NM_ajax_info['param']['script_case_init'];
+          }
+          if (isset($this->NM_ajax_info['param']['usuario']))
+          {
+              $this->usuario = $this->NM_ajax_info['param']['usuario'];
           }
           if (isset($this->nmgp_refresh_fields))
           {
@@ -962,6 +967,9 @@ $_SESSION['scriptcase']['login_mob']['contr_erro'] = 'off';
       $this->sc_where_orig   = $_SESSION['sc_session'][$this->Ini->sc_page]['login_mob']['where_orig'];
       $this->sc_where_atual  = $_SESSION['sc_session'][$this->Ini->sc_page]['login_mob']['where_pesq'];
       $this->sc_where_filtro = $_SESSION['sc_session'][$this->Ini->sc_page]['login_mob']['where_pesq_filtro'];
+      if ($this->NM_ajax_flag && 'event_' == substr($this->NM_ajax_opcao, 0, 6)) {
+          $this->nmgp_botoes = $_SESSION['sc_session'][$this->Ini->sc_page]['login_mob']['buttonStatus'];
+      }
       if (isset($_SESSION['sc_session'][$this->Ini->sc_page]['login_mob']['iframe_filtro']) && $_SESSION['sc_session'][$this->Ini->sc_page]['login_mob']['iframe_filtro'] == "S")
       {
           $this->nmgp_botoes['exit'] = "off";
@@ -1359,6 +1367,10 @@ $_SESSION['scriptcase']['login_mob']['contr_erro'] = 'off';
           {
               $this->Valida_campos($Campos_Crit, $Campos_Falta, $Campos_Erros, 'pswd');
           }
+          if ('validate_usuario' == $this->NM_ajax_opcao)
+          {
+              $this->Valida_campos($Campos_Crit, $Campos_Falta, $Campos_Erros, 'usuario');
+          }
           if ('validate_links' == $this->NM_ajax_opcao)
           {
               $this->Valida_campos($Campos_Crit, $Campos_Falta, $Campos_Erros, 'links');
@@ -1454,6 +1466,7 @@ $_SESSION['scriptcase']['login_mob']['contr_erro'] = 'off';
           $this->login = "" ;  
           $this->pswd = "" ;  
           $this->links = "" ;  
+          $this->usuario = "" ;  
           if (isset($_SESSION['sc_session'][$this->Ini->sc_page]['login_mob']['dados_form']) && !empty($_SESSION['sc_session'][$this->Ini->sc_page]['login_mob']['dados_form']))
           {
               foreach ($_SESSION['sc_session'][$this->Ini->sc_page]['login_mob']['dados_form'] as $NM_campo => $NM_valor)
@@ -1485,7 +1498,8 @@ $_SESSION['scriptcase']['login_mob']['contr_erro'] = 'off';
               { 
                   $login = $_SESSION['sc_session'][$this->Ini->sc_page]['login_mob']['campos'][0]; 
                   $pswd = $_SESSION['sc_session'][$this->Ini->sc_page]['login_mob']['campos'][1]; 
-                  $links = $_SESSION['sc_session'][$this->Ini->sc_page]['login_mob']['campos'][2]; 
+                  $usuario = $_SESSION['sc_session'][$this->Ini->sc_page]['login_mob']['campos'][2]; 
+                  $links = $_SESSION['sc_session'][$this->Ini->sc_page]['login_mob']['campos'][3]; 
               } 
           }
           $this->nm_gera_html();
@@ -1496,7 +1510,8 @@ $_SESSION['scriptcase']['login_mob']['contr_erro'] = 'off';
           $_SESSION['sc_session'][$this->Ini->sc_page]['login_mob']['campos'] = array(); 
           $_SESSION['sc_session'][$this->Ini->sc_page]['login_mob']['campos'][0] = $this->login; 
           $_SESSION['sc_session'][$this->Ini->sc_page]['login_mob']['campos'][1] = $this->pswd; 
-          $_SESSION['sc_session'][$this->Ini->sc_page]['login_mob']['campos'][2] = $this->links; 
+          $_SESSION['sc_session'][$this->Ini->sc_page]['login_mob']['campos'][2] = $this->usuario; 
+          $_SESSION['sc_session'][$this->Ini->sc_page]['login_mob']['campos'][3] = $this->links; 
           if (!empty($this->links))
           {
               $trab_saida = $this->links;
@@ -1834,6 +1849,9 @@ $_SESSION['scriptcase']['login_mob']['contr_erro'] = 'off';
            case 'pswd':
                return "" . $this->Ini->Nm_lang['lang_sec_users_fild_pswd'] . "";
                break;
+           case 'usuario':
+               return "Usuário: <b>admin</b> <br> Senha: <b>admin</b>";
+               break;
            case 'links':
                return "Links";
                break;
@@ -1892,6 +1910,11 @@ $_SESSION['scriptcase']['login_mob']['contr_erro'] = 'off';
         $this->ValidateField_pswd($Campos_Crit, $Campos_Falta, $Campos_Erros);
       if ('' == $this->scFormFocusErrorName && ( !empty($Campos_Crit) || !empty($Campos_Falta) ))
           $this->scFormFocusErrorName = "pswd";
+
+      if ('' == $filtro || 'usuario' == $filtro)
+        $this->ValidateField_usuario($Campos_Crit, $Campos_Falta, $Campos_Erros);
+      if ('' == $this->scFormFocusErrorName && ( !empty($Campos_Crit) || !empty($Campos_Falta) ))
+          $this->scFormFocusErrorName = "usuario";
 
       if ('' == $filtro || 'links' == $filtro)
         $this->ValidateField_links($Campos_Crit, $Campos_Falta, $Campos_Erros);
@@ -2145,6 +2168,26 @@ $_SESSION['scriptcase']['login_mob']['contr_erro'] = 'off';
         }
     } // ValidateField_pswd
 
+    function ValidateField_usuario(&$Campos_Crit, &$Campos_Falta, &$Campos_Erros)
+    {
+        global $teste_validade;
+        $hasError = false;
+      if ($this->nmgp_opcao != "excluir") 
+      { 
+          if (trim($this->usuario) != "")  
+          { 
+          } 
+      } 
+        if ($hasError) {
+            global $sc_seq_vert;
+            $fieldName = 'usuario';
+            if (isset($sc_seq_vert) && '' != $sc_seq_vert) {
+                $fieldName .= $sc_seq_vert;
+            }
+            $this->NM_ajax_info['fieldsWithErrors'][] = $fieldName;
+        }
+    } // ValidateField_usuario
+
     function ValidateField_links(&$Campos_Crit, &$Campos_Falta, &$Campos_Erros)
     {
         global $teste_validade;
@@ -2190,6 +2233,7 @@ $_SESSION['scriptcase']['login_mob']['contr_erro'] = 'off';
            $sc_seq_vert;
     $this->nmgp_dados_form['login'] = $this->login;
     $this->nmgp_dados_form['pswd'] = $this->pswd;
+    $this->nmgp_dados_form['usuario'] = $this->usuario;
     $this->nmgp_dados_form['links'] = $this->links;
     $_SESSION['sc_session'][$this->Ini->sc_page]['login_mob']['dados_form'] = $this->nmgp_dados_form;
    }
@@ -2615,6 +2659,7 @@ $_SESSION['scriptcase']['login_mob']['contr_erro'] = 'off';
    {
           $this->ajax_return_values_login();
           $this->ajax_return_values_pswd();
+          $this->ajax_return_values_usuario();
           $this->ajax_return_values_links();
           if ('navigate_form' == $this->NM_ajax_opcao)
           {
@@ -2652,6 +2697,22 @@ $_SESSION['scriptcase']['login_mob']['contr_erro'] = 'off';
                        'row'    => '',
                'type'    => 'text',
                'valList' => array(''),
+              );
+          }
+   }
+
+          //----- usuario
+   function ajax_return_values_usuario($bForce = false)
+   {
+          if ('navigate_form' == $this->NM_ajax_opcao || 'backup_line' == $this->NM_ajax_opcao || (isset($this->nmgp_refresh_fields) && in_array("usuario", $this->nmgp_refresh_fields)) || $bForce)
+          {
+              $sTmpValue = NM_charset_to_utf8($this->usuario);
+              $aLookup = array();
+          $aLookupOrig = $aLookup;
+          $this->NM_ajax_info['fldList']['usuario'] = array(
+                       'row'    => '',
+               'type'    => 'label',
+               'valList' => array($sTmpValue),
               );
           }
    }

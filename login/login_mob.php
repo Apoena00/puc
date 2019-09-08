@@ -281,8 +281,8 @@ class login_mob_ini
       $this->nm_dt_criacao   = "20190823"; 
       $this->nm_hr_criacao   = "133435"; 
       $this->nm_autor_alt    = "admin"; 
-      $this->nm_dt_ult_alt   = "20190825"; 
-      $this->nm_hr_ult_alt   = "195111"; 
+      $this->nm_dt_ult_alt   = "20190908"; 
+      $this->nm_hr_ult_alt   = "154120"; 
       list($NM_usec, $NM_sec) = explode(" ", microtime()); 
       $this->nm_timestamp    = (float) $NM_sec; 
       $this->nm_app_version  = "1.0.0"; 
@@ -517,8 +517,7 @@ class login_mob_ini
           }
       }
       if (isset($_SESSION['scriptcase']['login_mob']['session_timeout']['redir'])) {
-          $SS_cod_html  = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-';
+          $SS_cod_html  = '';
           $SS_cod_html .= "<HTML>\r\n";
           $SS_cod_html .= " <HEAD>\r\n";
           $SS_cod_html .= "  <TITLE></TITLE>\r\n";
@@ -918,7 +917,7 @@ class login_mob_ini
       $this->nm_bases_odbc       = array("odbc");
       $this->nm_bases_progress   = array("progress", "pdo_progress_odbc");
       $this->nm_bases_all        = array_merge($this->nm_bases_access, $this->nm_bases_db2, $this->nm_bases_ibase, $this->nm_bases_informix, $this->nm_bases_mssql, $this->nm_bases_mysql, $this->nm_bases_postgres, $this->nm_bases_oracle, $this->nm_bases_sqlite, $this->nm_bases_sybase, $this->nm_bases_vfp, $this->nm_bases_odbc, $this->nm_bases_progress);
-      $_SESSION['scriptcase']['nm_bases_security']  = "enc_nm_enc_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";
+      $_SESSION['scriptcase']['nm_bases_security']  = "enc_nm_enc_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";
       $this->prep_conect();
       if (isset($_SESSION['sc_session'][$this->sc_page]['login_mob']['initialize']) && $_SESSION['sc_session'][$this->sc_page]['login_mob']['initialize'])  
       { 
@@ -1672,6 +1671,11 @@ ob_start();
             $pswd = NM_utf8_urldecode($_POST['rsargs'][0]);
             $script_case_init = NM_utf8_urldecode($_POST['rsargs'][1]);
         }
+        if ('ajax_login_mob_validate_usuario' == $_POST['rs'])
+        {
+            $usuario = NM_utf8_urldecode($_POST['rsargs'][0]);
+            $script_case_init = NM_utf8_urldecode($_POST['rsargs'][1]);
+        }
         if ('ajax_login_mob_validate_links' == $_POST['rs'])
         {
             $links = NM_utf8_urldecode($_POST['rsargs'][0]);
@@ -1681,15 +1685,16 @@ ob_start();
         {
             $login = NM_utf8_urldecode($_POST['rsargs'][0]);
             $pswd = NM_utf8_urldecode($_POST['rsargs'][1]);
-            $links = NM_utf8_urldecode($_POST['rsargs'][2]);
-            $nm_form_submit = NM_utf8_urldecode($_POST['rsargs'][3]);
-            $nmgp_url_saida = NM_utf8_urldecode($_POST['rsargs'][4]);
-            $nmgp_opcao = NM_utf8_urldecode($_POST['rsargs'][5]);
-            $nmgp_ancora = NM_utf8_urldecode($_POST['rsargs'][6]);
-            $nmgp_num_form = NM_utf8_urldecode($_POST['rsargs'][7]);
-            $nmgp_parms = NM_utf8_urldecode($_POST['rsargs'][8]);
-            $script_case_init = NM_utf8_urldecode($_POST['rsargs'][9]);
-            $csrf_token = NM_utf8_urldecode($_POST['rsargs'][10]);
+            $usuario = NM_utf8_urldecode($_POST['rsargs'][2]);
+            $links = NM_utf8_urldecode($_POST['rsargs'][3]);
+            $nm_form_submit = NM_utf8_urldecode($_POST['rsargs'][4]);
+            $nmgp_url_saida = NM_utf8_urldecode($_POST['rsargs'][5]);
+            $nmgp_opcao = NM_utf8_urldecode($_POST['rsargs'][6]);
+            $nmgp_ancora = NM_utf8_urldecode($_POST['rsargs'][7]);
+            $nmgp_num_form = NM_utf8_urldecode($_POST['rsargs'][8]);
+            $nmgp_parms = NM_utf8_urldecode($_POST['rsargs'][9]);
+            $script_case_init = NM_utf8_urldecode($_POST['rsargs'][10]);
+            $csrf_token = NM_utf8_urldecode($_POST['rsargs'][11]);
         }
         if ('ajax_login_mob_navigate_form' == $_POST['rs'])
         {
@@ -2379,6 +2384,7 @@ ob_start();
     //$sajax_debug_mode = 1;
     sajax_export("ajax_login_mob_validate_login");
     sajax_export("ajax_login_mob_validate_pswd");
+    sajax_export("ajax_login_mob_validate_usuario");
     sajax_export("ajax_login_mob_validate_links");
     sajax_export("ajax_login_mob_submit_form");
     sajax_export("ajax_login_mob_navigate_form");
@@ -2444,6 +2450,25 @@ ob_start();
         exit;
     } // ajax_validate_pswd
 
+    function ajax_login_mob_validate_usuario($usuario, $script_case_init)
+    {
+        global $inicial_login_mob;
+        //register_shutdown_function("login_mob_pack_ajax_response");
+        $inicial_login_mob->contr_login_mob->NM_ajax_flag          = true;
+        $inicial_login_mob->contr_login_mob->NM_ajax_opcao         = 'validate_usuario';
+        $inicial_login_mob->contr_login_mob->NM_ajax_info['param'] = array(
+                  'usuario' => NM_utf8_urldecode($usuario),
+                  'script_case_init' => NM_utf8_urldecode($script_case_init),
+                  'buffer_output' => true,
+                 );
+        if ($inicial_login_mob->contr_login_mob->NM_ajax_info['param']['buffer_output'])
+        {
+            ob_start();
+        }
+        $inicial_login_mob->contr_login_mob->controle();
+        exit;
+    } // ajax_validate_usuario
+
     function ajax_login_mob_validate_links($links, $script_case_init)
     {
         global $inicial_login_mob;
@@ -2463,7 +2488,7 @@ ob_start();
         exit;
     } // ajax_validate_links
 
-    function ajax_login_mob_submit_form($login, $pswd, $links, $nm_form_submit, $nmgp_url_saida, $nmgp_opcao, $nmgp_ancora, $nmgp_num_form, $nmgp_parms, $script_case_init, $csrf_token)
+    function ajax_login_mob_submit_form($login, $pswd, $usuario, $links, $nm_form_submit, $nmgp_url_saida, $nmgp_opcao, $nmgp_ancora, $nmgp_num_form, $nmgp_parms, $script_case_init, $csrf_token)
     {
         global $inicial_login_mob;
         //register_shutdown_function("login_mob_pack_ajax_response");
@@ -2472,6 +2497,7 @@ ob_start();
         $inicial_login_mob->contr_login_mob->NM_ajax_info['param'] = array(
                   'login' => NM_utf8_urldecode($login),
                   'pswd' => NM_utf8_urldecode($pswd),
+                  'usuario' => NM_utf8_urldecode($usuario),
                   'links' => NM_utf8_urldecode($links),
                   'nm_form_submit' => NM_utf8_urldecode($nm_form_submit),
                   'nmgp_url_saida' => NM_utf8_urldecode($nmgp_url_saida),

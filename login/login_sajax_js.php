@@ -2395,6 +2395,10 @@ sajax_show_javascript();
     {
       document.getElementById("id_label_" + sField).innerHTML = sLabel;
     }
+    if (document.getElementById("hidden_field_label_" + sField) && document.getElementById("hidden_field_label_" + sField).innerHTML != sLabel)
+    {
+      document.getElementById("hidden_field_label_" + sField).innerHTML = sLabel;
+    }
   } // scAjaxFieldLabel
 
   function scAjaxSetReadonly(bReset)
@@ -2686,6 +2690,9 @@ sajax_show_javascript();
   } // scMoveMasterDetail
 
 	function scAjaxError_markList() {
+	    if ('undefined' == typeof oResp.errList) {
+	        return;
+	    }
 		var i, fieldName, fieldList = new Array();
 		for (i = 0; i < oResp.errList.length; i++) {
 			fieldName = oResp.errList[i]["fldName"];
@@ -2724,6 +2731,13 @@ sajax_show_javascript();
 			$oField.removeClass(sc_css_status);
 		}
 	} // scAjaxError_unmarkField
+	
+	function scAjax_displayEmptyForm() {
+        $("#sc-ui-empty-form").show();
+        $(".sc-ui-page-tab-line").hide();
+        $("#sc-id-required-row").hide();
+        sc_hide_login_form();
+	}
 
   // ---------- Validate login
   function do_ajax_login_validate_login()
@@ -2799,6 +2813,43 @@ sajax_show_javascript();
     scAjaxSetFocus();
   } // do_ajax_login_validate_pswd_cb
 
+  // ---------- Validate usuario
+  function do_ajax_login_validate_usuario()
+  {
+    var nomeCampo_usuario = "usuario";
+    var var_usuario = scAjaxGetFieldHidden(nomeCampo_usuario);
+    var var_script_case_init = document.F1.script_case_init.value;
+    x_ajax_login_validate_usuario(var_usuario, var_script_case_init, do_ajax_login_validate_usuario_cb);
+  } // do_ajax_login_validate_usuario
+
+  function do_ajax_login_validate_usuario_cb(sResp)
+  {
+    oResp = scAjaxResponse(sResp);
+    scAjaxRedir();
+    sFieldValid = "usuario";
+    scEventControl_onBlur(sFieldValid);
+    scAjaxUpdateFieldErrors(sFieldValid, "valid");
+    sAppErrors = scAjaxListErrors(true);
+    if ("" == sAppErrors)
+    {
+      var sImgStatus = sc_img_status_ok;
+      scAjaxHideErrorDisplay("table");
+    }
+    else
+    {
+      var sImgStatus = sc_img_status_err;
+      scAjaxShowErrorDisplay("table", sAppErrors);
+    }
+    var $oImg = $('#id_sc_status_' + sFieldValid);
+    if (0 < $oImg.length)
+    {
+      $oImg.attr('src', sImgStatus).css('display', '');
+    }
+    scAjaxShowDebug();
+    scAjaxSetMaster();
+    scAjaxSetFocus();
+  } // do_ajax_login_validate_usuario_cb
+
   // ---------- Validate links
   function do_ajax_login_validate_links()
   {
@@ -2873,6 +2924,7 @@ function scJs_confirm(message, callbackOk, callbackCancel) {
     scAjaxHideMessage();
     var var_login = scAjaxGetFieldText("login");
     var var_pswd = scAjaxGetFieldText("pswd");
+    var var_usuario = scAjaxGetFieldHidden("usuario");
     var var_links = scAjaxGetFieldText("links");
     var var_nm_form_submit = document.F1.nm_form_submit.value;
     var var_nmgp_url_saida = document.F1.nmgp_url_saida.value;
@@ -2883,7 +2935,7 @@ function scJs_confirm(message, callbackOk, callbackCancel) {
     var var_script_case_init = document.F1.script_case_init.value;
     var var_csrf_token = scAjaxGetFieldText("csrf_token");
     scAjaxProcOn();
-    x_ajax_login_submit_form(var_login, var_pswd, var_links, var_nm_form_submit, var_nmgp_url_saida, var_nmgp_opcao, var_nmgp_ancora, var_nmgp_num_form, var_nmgp_parms, var_script_case_init, var_csrf_token, do_ajax_login_submit_form_cb);
+    x_ajax_login_submit_form(var_login, var_pswd, var_usuario, var_links, var_nm_form_submit, var_nmgp_url_saida, var_nmgp_opcao, var_nmgp_ancora, var_nmgp_num_form, var_nmgp_parms, var_script_case_init, var_csrf_token, do_ajax_login_submit_form_cb);
   } // do_ajax_login_submit_form
 
   function do_ajax_login_submit_form_cb(sResp)
@@ -3034,7 +3086,8 @@ if ($this->Embutida_form)
   var ajax_field_Dt_Hr = new Array();
   ajax_field_list[0] = "login";
   ajax_field_list[1] = "pswd";
-  ajax_field_list[2] = "links";
+  ajax_field_list[2] = "usuario";
+  ajax_field_list[3] = "links";
 
   var ajax_block_list = new Array();
   ajax_block_list[0] = "0";
@@ -3043,6 +3096,7 @@ if ($this->Embutida_form)
   var ajax_error_list = {
     "login": {"label": "<?php echo $this->Ini->Nm_lang['lang_sec_users_fild_login'] ?>", "valid": new Array(), "onblur": new Array(), "onchange": new Array(), "onclick": new Array(), "onfocus": new Array(), "timeout": 5},
     "pswd": {"label": "<?php echo $this->Ini->Nm_lang['lang_sec_users_fild_pswd'] ?>", "valid": new Array(), "onblur": new Array(), "onchange": new Array(), "onclick": new Array(), "onfocus": new Array(), "timeout": 5},
+    "usuario": {"label": "Usuário: <b>admin</b> <br> Senha: <b>admin</b>", "valid": new Array(), "onblur": new Array(), "onchange": new Array(), "onclick": new Array(), "onfocus": new Array(), "timeout": 5},
     "links": {"label": "Links", "valid": new Array(), "onblur": new Array(), "onchange": new Array(), "onclick": new Array(), "onfocus": new Array(), "timeout": 5}
   };
   var ajax_error_timeout = 5;
@@ -3060,20 +3114,24 @@ if ($this->Embutida_form)
   var ajax_field_mult = {
     "login": new Array(),
     "pswd": new Array(),
+    "usuario": new Array(),
     "links": new Array()
   };
   ajax_field_mult["login"][1] = "login";
   ajax_field_mult["pswd"][1] = "pswd";
+  ajax_field_mult["usuario"][1] = "usuario";
   ajax_field_mult["links"][1] = "links";
 
   var ajax_field_id = {
     "login": new Array("hidden_field_label_login", "hidden_field_data_login"),
-    "pswd": new Array("hidden_field_label_pswd", "hidden_field_data_pswd")
+    "pswd": new Array("hidden_field_label_pswd", "hidden_field_data_pswd"),
+    "usuario": new Array("hidden_field_label_usuario", "hidden_field_data_usuario")
   };
 
   var ajax_read_only = {
     "login": "off",
     "pswd": "off",
+    "usuario": "off",
     "links": "off"
   };
   var bRefreshTable = false;
@@ -3106,6 +3164,23 @@ if ($this->Embutida_form)
     if ("pswd" == sIndex)
     {
       scAjaxSetFieldText(sIndex, aValue, "", "", true);
+      updateHeaderFooter(sIndex, aValue);
+
+      if ($("#id_sc_field_" + sIndex).length) {
+          $("#id_sc_field_" + sIndex).change();
+      }
+      else if (document.F1.elements[sIndex]) {
+          $(document.F1.elements[sIndex]).change();
+      }
+      else if (document.F1.elements[sFieldName + "[]"]) {
+          $(document.F1.elements[sFieldName + "[]"]).change();
+      }
+
+      return;
+    }
+    if ("usuario" == sIndex)
+    {
+      scAjaxSetFieldLabel(sIndex, aValue);
       updateHeaderFooter(sIndex, aValue);
 
       if ($("#id_sc_field_" + sIndex).length) {

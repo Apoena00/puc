@@ -578,11 +578,17 @@ class nm_data
         $dias = 0;
         $negativo = -1;
         $this->SetaData($str_data1, $str_formato1);
+        if ($this->mDia < 1 || $this->mDia > 31 || $this->mMes < 1 || $this->mMes > 12 || !is_numeric($this->mAno) || strlen($this->mAno) != 4) {
+            return false;
+        }
         $dia_1 = (strlen($this->mDia) < 2) ? "0" . $this->mDia : $this->mDia;
         $mes_1 = (strlen($this->mMes) < 2) ? "0" . $this->mMes : $this->mMes;
         $ano_1 = $this->mAno;
         $temp_data1 = $ano_1 . $mes_1 . $dia_1;
         $this->SetaData($str_data2, $str_formato2);
+        if ($this->mDia < 1 || $this->mDia > 31 || $this->mMes < 1 || $this->mMes > 12 || !is_numeric($this->mAno) || strlen($this->mAno) != 4) {
+            return false;
+        }
         $dia_2 = (strlen($this->mDia) < 2) ? "0" . $this->mDia : $this->mDia;
         $mes_2 = (strlen($this->mMes) < 2) ? "0" . $this->mMes : $this->mMes;
         $ano_2 = $this->mAno;
@@ -657,10 +663,16 @@ class nm_data
         $saida = array();
         $dias_meses = array(1 => 31, 2 => 28, 3 => 31, 4 => 30, 5 => 31, 6 => 30, 7 => 31, 8 => 31, 9 => 30, 10 => 31, 11 => 30, 12 => 31, 13 => 31);
         $this->SetaData($str_data1, $str_formato1);
+        if ($this->mDia < 1 || $this->mDia > 31 || $this->mMes < 1 || $this->mMes > 12 || !is_numeric($this->mAno) || strlen($this->mAno) != 4) {
+            return false;
+        }
         $ano_1 = $this->mAno;
         $mes_1 = $this->mMes;
         $dia_1 = $this->mDia;
         $this->SetaData($str_data2, $str_formato2);
+        if ($this->mDia < 1 || $this->mDia > 31 || $this->mMes < 1 || $this->mMes > 12 || !is_numeric($this->mAno) || strlen($this->mAno) != 4) {
+            return false;
+        }
         $dt_1 = $ano_1 . substr("0" . $mes_1, -2) . substr("0" . $dia_1, -2);
         $dt_2 = $this->mAno . substr("0" . $this->mMes, -2) . substr("0" . $this->mDia, -2);
 
